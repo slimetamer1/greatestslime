@@ -61,22 +61,22 @@ const EditModal = ({ note, setNotes, showModalMessage, onClose }) => {
                         </button>
                         <button
                             type="button"
-                            className="bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded-full w-10 h-10 border-2 border-white scale-75"
-                            onClick={() => handleColorChange('bg-blue-400')}
+                            className="bg-[#FF82B8] hover:bg-[#FF59A1] text-white font-semibold py-2 px-4 rounded-full w-10 h-10 border-2 border-white scale-75"
+                            onClick={() => handleColorChange('bg-[#FF82B8]')}
                         >
                             
                         </button>
                         <button
                             type="button"
                             className="bg-green-300 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded-full w-10 h-10 border-2 border-white scale-75"
-                            onClick={() => handleColorChange('bg-green-400')}
+                            onClick={() => handleColorChange('bg-[#59F2E5]')}
                         >
                             
                         </button>
                         <button
                             type="button"
-                            className="bg-red-300 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded-full w-10 h-10 border-2 border-white scale-75"
-                            onClick={() => handleColorChange('bg-red-400')}
+                            className="bg-[#9D9ADD] hover:bg-red-400 text-white font-semibold py-2 px-4 rounded-full w-10 h-10 border-2 border-white scale-75"
+                            onClick={() => handleColorChange('bg-[#9D9ADD]')}
                         >
                             
                         </button>

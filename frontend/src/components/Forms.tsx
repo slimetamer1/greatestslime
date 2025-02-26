@@ -7,15 +7,12 @@ import { Button } from "./ui/button";
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     const name = method === "login" ? "LOGIN" : "REGISTER";
     const inverse = method === "login" ? "register" : "login";
 
     const handleSubmit = async (e) => {
-        setLoading(true);
         e.preventDefault();
 
         try {
@@ -52,14 +49,14 @@ function Form({ route, method }) {
                             <div className="flex flex-col translate-y-[-2rem] space-y-4">  
                         
                                 <input
-                                    className="border-1 border-gray-600 rounded-[8px] p-1"
+                                    className="border-1 border-gray-600 rounded-[8px] p-2 pl-3"
                                     type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                     placeholder="Username"
                                 />
                                 <input
-                                    className="border-1 border-gray-600 rounded-[8px] p-1"
+                                    className="border-1 border-gray-600 rounded-[8px] p-2 pl-3"
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}

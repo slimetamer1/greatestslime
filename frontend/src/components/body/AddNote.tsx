@@ -44,14 +44,14 @@ const AddNote = ({setNotes, showModalMessage}) => {
                     id="content"
                     name="content"
                     rows='3'
-                    placeholder='Type to add new note....'
+                    placeholder='Type to add new todo....'
                     required
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                 ></textarea>
                 <div className ='flex flex-row-reverse justify-between items-center translate-y-[10px] '>
                     <div className='hover:scale-105 transition-transform duration-300 ease-out will-change-transform'>
-                        <Button variant="secondary" value="Submit" className='bg-white'>Note</Button>
+                        <Button variant="default" value="Submit" className='bg-gray-400'>Note</Button>
                     </div>
                 </div>
             </form>

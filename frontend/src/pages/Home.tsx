@@ -3,6 +3,7 @@ import api from "../api";
 import NoteLists from "@/components/body/NoteLists";
 import Headers from "@/components/header/Headers";
 import NoteModal from "@/components/ux/NoteModal";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 interface NoteType {
     id: number;
@@ -55,6 +56,7 @@ function Home() {
             <Headers />
             <NoteLists notes={notes} setNotes={setNotes} deleteNote={deleteNote} showModalMessage={showModalMessage} />
             {showModal && <NoteModal message={modalMessage} setShowModal={setShowModal} />}
+            
         </div>
     );
 }
