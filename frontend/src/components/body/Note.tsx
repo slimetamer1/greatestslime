@@ -1,31 +1,51 @@
-import { MdDelete } from "react-icons/md";
-import { MdOutlineEdit } from "react-icons/md";
-import { MdDeleteOutline } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 
 
+interface Note {
+    id: number;
+    content: string;
+    bg_color?: string;
+    created_at: string;
+}
 
-const Notes = ({note, onDelete, onEdit}) => {
-    const formattedDate = new Date(note.created_at).toLocaleDateString("en-US")
-    
+
+interface NotesProps {
+    note: Note;
+    onDelete: (id: number) => void;
+    onEdit: (note: Note) => void;
+}
+
+const Notes: React.FC<NotesProps> = ({ note, onDelete, onEdit }) => {
+    const formattedDate = new Date(note.created_at).toLocaleDateString("en-US");
+
     return (
-        <div className = {`flex flex-col justify-between ${note.bg_color || "bg-yellow-400"} m-3 p-3 rounded-lg min-h-[200px] text-center hover:scale-105 transition-transform duration-300 ease-out will-change-transform`}>
-            <span className="pt-[55px]">{note.content} </span>
-            
-            <div className ='flex justify-between items-center '>
+        <div
+            className={`flex flex-col justify-between ${note.bg_color || "bg-yellow-400"} 
+                m-3 p-3 rounded-lg min-h-[200px] text-center 
+                hover:scale-105 transition-transform duration-300 ease-out will-change-transform`}
+        >
+            <span className="pt-[55px]">{note.content}</span>
+
+            <div className="flex justify-between items-center">
                 <small>{formattedDate}</small>
-                <div className="flex scale-110 "> 
-                    <div className="hover:scale-150 transition-transform duration-300 ease-out will-change-transform" onClick={() => onEdit(note)}>
+                <div className="flex scale-110">
+                    <div
+                        className="hover:scale-150 transition-transform duration-300 ease-out will-change-transform cursor-pointer"
+                        onClick={() => onEdit(note)}
+                    >
                         <MdOutlineEdit />
                     </div>
-   
-                    <div className="hover:scale-150 transition-transform duration-300 ease-out will-change-transform">
-                        <MdDeleteOutline onClick={() => onDelete(note.id)}/>
+
+                    <div
+                        className="hover:scale-150 transition-transform duration-300 ease-out will-change-transform cursor-pointer"
+                        onClick={() => onDelete(note.id)}
+                    >
+                        <MdDeleteOutline />
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Notes;

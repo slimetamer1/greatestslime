@@ -1,63 +1,65 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import api from "../../api";
 
 
-const AddNote = ({setNotes, showModalMessage}) => {
-    const [content, setContent] = useState("");
+interface AddNoteProps {
+    setNotes: (notes: any[]) => void;
+    showModalMessage: (message: string) => void;
+}
 
-    const getNotes = () => {
-        api
-            .get("/api/notes/")
-            .then((res) => res.data)
-            .then((data) => {
-                setNotes(data);
-                console.log(data);
-            })
-            .catch((err) => showModalMessage("Error fetching notes: " + err.message));
+const AddNote: React.FC<AddNoteProps> = ({ setNotes, showModalMessage }) => {
+    const [content, setContent] = useState<string>("");
+
+    
+    const getNotes = async () => {
+        try {
+            const res = await api.get("/api/notes/");
+            setNotes(res.data);
+        } catch (err: any) {
+            showModalMessage("Error fetching notes: " + err.message);
+        }
     };
-    const createNote = (e) => {
+
+    
+    const createNote = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        api
-            .post("/api/notes/", {content})
-            .then((res) => {
-                if (res.status === 201) {
-                    getNotes();
-                    setContent("");
-                } else {
-                    showModalMessage("Failed to Make Note.");
-                }
-                
-
-            })
-            .catch((err) => {
-                showModalMessage("Error: " + err.message);
-            });
-
+        try {
+            const res = await api.post("/api/notes/", { content });
+            if (res.status === 201) {
+                getNotes();
+                setContent("");
+            } else {
+                showModalMessage("Failed to create note.");
+            }
+        } catch (err: any) {
+            showModalMessage("Error: " + err.message);
+        }
     };
-
 
     return (
-    <div className='flex flex-col justify-between bg-[#B3B3B3] m-3 p-3 rounded-lg min-h-[200px] text-center text motion-preset-expand motion-duration-1000 ' >
-            <form onSubmit={createNote} >
-                <textarea className='resize-none bg-inherit border-none outline-none text-center pt-[55px]'
+        <div className="flex flex-col justify-between bg-[#B3B3B3] m-3 p-3 rounded-lg min-h-[200px] text-center motion-preset-expand motion-duration-1000">
+            <form onSubmit={createNote}>
+                <textarea
+                    className="resize-none bg-inherit border-none outline-none text-center pt-[55px]"
                     id="content"
                     name="content"
-                    rows='3'
-                    placeholder='Type to add new todo....'
+                    rows={3}
+                    placeholder="Type to add new todo...."
                     required
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                 ></textarea>
-                <div className ='flex flex-row-reverse justify-between items-center translate-y-[10px] '>
-                    <div className='hover:scale-105 transition-transform duration-300 ease-out will-change-transform'>
-                        <Button variant="default" value="Submit" className='bg-gray-400'>Note</Button>
+                <div className="flex flex-row-reverse justify-between items-center translate-y-[10px]">
+                    <div className="hover:scale-105 transition-transform duration-300 ease-out will-change-transform">
+                        <Button type="submit" className="bg-gray-400">
+                            Note
+                        </Button>
                     </div>
                 </div>
             </form>
+        </div>
+    );
+};
 
-    </div>
-  )
-}
-
-export default AddNote
+export default AddNote;
