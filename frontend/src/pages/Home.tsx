@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import api, { getCurrentUser }  from "../api";
+import { useNavigate } from "react-router-dom";
+import api, { getCurrentUser } from "../api";
 import NoteLists from "@/components/body/NoteLists";
 import Headers from "@/components/header/Headers";
 import NoteModal from "@/components/ux/NoteModal";
@@ -18,32 +19,40 @@ function Home(): JSX.Element {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showSidebar, setShowSidebar] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const checkAuthentication = async () => {
+            const user = await getCurrentUser();
+            if (user) {
+                console.log("Username fetched:", user.username);
+                setUsername(user.username);
+                navigate("/", { replace: true }); // Replace the current history entry
+            } else {
+                console.error("Failed to fetch username");
+                showModalMessage("Failed to fetch username");
+                navigate("/login", { replace: true }); // Redirect to login if not authenticated
+            }
+        };
+
         getNotes();
-        fetchUsername();
+        checkAuthentication();
     }, []);
+
+    useEffect(() => {
+        if (username) {
+            navigate("/", { replace: true }); // Replace the current history entry if username is set
+        }
+    }, [username, navigate]);
 
     const getNotes = async (): Promise<void> => {
         try {
             const response = await api.get("/api/notes/");
             setNotes(response.data);
-        } catch (err) {
+        } catch (err:any) {
             showModalMessage("Failed to fetch notes");
         }
     };
-
-    const fetchUsername = async (): Promise<void> => {
-        const user = await getCurrentUser();
-        if (user) {
-            console.log("Username fetched:", user.username);
-            setUsername(user.username);
-        } else {
-            console.error("Failed to fetch username");
-            showModalMessage("Failed to fetch username");
-        }
-    };
-
 
     const deleteNote = async (id: number): Promise<void> => {
         const noteElement = document.getElementById(`note-${id}`);
