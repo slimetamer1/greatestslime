@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@/api/services/AuthService";
-import { getNotes, deleteNote } from "@/api/services/NoteService";
+import { getNotes } from "@/api/services/GetNote";
+import { deleteNote } from "@/api/services/DeleteNote";
 import NoteLists from "@/components/body/NoteLists";
 import Headers from "@/components/header/Headers";
 import NoteModal from "@/components/ux/NoteModal";
@@ -26,7 +27,6 @@ function Home() {
         const checkAuthentication = async () => {
             const user = await getCurrentUser();
             if (user) {
-                console.log("Username fetched:", user.username);
                 setUsername(user.username);
                 navigate("/", { replace: true }); 
             } else {
@@ -60,7 +60,6 @@ function Home() {
         if (noteElement) {
             noteElement.classList.add("motion-opacity-out-[0%]"); 
         }
-
         try {
             await deleteNote(id);
             fetchNotes();
