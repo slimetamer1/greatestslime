@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api, { getCurrentUser } from "../api";
+import { getCurrentUser } from "@/api/services/AuthService";
+import { getNotes, deleteNote } from "@/api/services/NoteService";
 import NoteLists from "@/components/body/NoteLists";
 import Headers from "@/components/header/Headers";
 import NoteModal from "@/components/ux/NoteModal";
@@ -13,7 +14,7 @@ interface NoteType {
     created_at: string;
 }
 
-function Home(): JSX.Element {
+function Home() {
     const [notes, setNotes] = useState<NoteType[]>([]);
     const [modalMessage, setModalMessage] = useState<string>("");
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -27,45 +28,42 @@ function Home(): JSX.Element {
             if (user) {
                 console.log("Username fetched:", user.username);
                 setUsername(user.username);
-                navigate("/", { replace: true }); // Replace the current history entry
+                navigate("/", { replace: true }); 
             } else {
                 console.error("Failed to fetch username");
                 showModalMessage("Failed to fetch username");
-                navigate("/login", { replace: true }); // Redirect to login if not authenticated
+                navigate("/login", { replace: true }); 
             }
         };
 
-        getNotes();
+        fetchNotes();
         checkAuthentication();
     }, []);
 
     useEffect(() => {
         if (username) {
-            navigate("/", { replace: true }); // Replace the current history entry if username is set
+            navigate("/", { replace: true }); 
         }
     }, [username, navigate]);
 
-    const getNotes = async (): Promise<void> => {
+    const fetchNotes = async (): Promise<void> => {
         try {
-            const response = await api.get("/api/notes/");
-            setNotes(response.data);
+            const notesData = await getNotes();
+            setNotes(notesData);
         } catch (err:any) {
             showModalMessage("Failed to fetch notes");
         }
     };
 
-    const deleteNote = async (id: number): Promise<void> => {
+    const handleDeleteNote = async (id: number): Promise<void> => {
         const noteElement = document.getElementById(`note-${id}`);
         if (noteElement) {
             noteElement.classList.add("motion-opacity-out-[0%]"); 
         }
 
         try {
-            const response = await api.delete(`/api/notes/delete/${id}/`);
-            if (response.status !== 204) {
-                showModalMessage("Failed to Delete Note.");
-            }
-            getNotes();
+            await deleteNote(id);
+            fetchNotes();
         } catch (error) {
             showModalMessage("Error: " + (error as Error).message);
         }
@@ -87,7 +85,7 @@ function Home(): JSX.Element {
                 <NoteLists 
                     notes={notes} 
                     setNotes={setNotes} 
-                    deleteNote={deleteNote} 
+                    deleteNote={handleDeleteNote} 
                     showModalMessage={showModalMessage} 
                 />
                 {showModal && <NoteModal message={modalMessage} setShowModal={setShowModal} />}

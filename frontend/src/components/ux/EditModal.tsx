@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import api from "../../api";
+import api from "../../api/api";
 
 interface Note {
     id: number;

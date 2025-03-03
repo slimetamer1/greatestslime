@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import { Button } from "./ui/button";
-import NoteModal from "./ux/NoteModal";
+import api from "../../api/api";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../api/services/Constants";
+import { Button } from "../ui/button";
+import NoteModal from "./NoteModal";
 
 
 interface FormProps {

@@ -24,7 +24,7 @@ const Notes: React.FC<NotesProps> = ({ note, onDelete, onEdit }) => {
                 m-3 p-3 rounded-lg min-h-[200px] text-center 
                 hover:scale-105 transition-transform duration-300 ease-out will-change-transform`}
         >
-            <span className="pt-[55px]">{note.content}</span>
+            <div className="pt-[55px] max-h-[150px] break-words overflow-x-auto custom-scrollbar">{note.content}</div>
 
             <div className="flex justify-between items-center">
                 <small>{formattedDate}</small>
