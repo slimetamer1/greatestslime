@@ -4,7 +4,7 @@ import LoginPage from './pages/LoginPage';
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./api/services/ProtectedRoute";
+import ProtectedRoute from "./route/ProtectedRoute";
 import { ThemeProvider } from "next-themes";
 
 function RegisterAndLogout() {
