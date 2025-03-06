@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import api from "../../api/api";
-
+import { Note } from "@/types/types";
 
 interface AddNoteProps {
-    setNotes: (notes: any[]) => void;
+    setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
     showModalMessage: (message: string) => void;
 }
 
 const AddNote: React.FC<AddNoteProps> = ({ setNotes, showModalMessage }) => {
     const [content, setContent] = useState<string>("");
 
-    
     const getNotes = async () => {
         try {
             const res = await api.get("/api/notes/");
@@ -21,7 +20,6 @@ const AddNote: React.FC<AddNoteProps> = ({ setNotes, showModalMessage }) => {
         }
     };
 
-    
     const createNote = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
